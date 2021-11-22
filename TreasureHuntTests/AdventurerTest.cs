@@ -11,38 +11,7 @@ namespace TreasureHunt.Tests
 {
     [TestClass()]
     public class AdventurerTest
-    {
-        private static readonly IMock<Map> _mapMock;
-
-        //[TestMethod()]
-        //public void Adventurer_Move_Orientation_Is_North_Should_Be_East()
-        //{
-        //    var adventurer = new Adventurer();
-
-        //    // Setup
-        //    adventurer.Name = "TestBoi";
-        //    adventurer.CurrentTurn = 0;
-        //    adventurer.MoveSequence = "D";
-        //    adventurer.Orientation = Orientation.NORTH;
-        //    adventurer.Move();
-        //    Assert.AreEqual(adventurer.Orientation, Orientation.EAST);
-        //    Assert.IsTrue(adventurer.IsDone);
-        //}
-
-        //[TestMethod()]
-        //public void Adventurer_Move_Orientation_Is_East_Should_Be_South()
-        //{
-        //    var adventurer = new Adventurer();
-
-        //    // Setup
-        //    adventurer.Name = "TestBoi";
-        //    adventurer.CurrentTurn = 0;
-        //    adventurer.MoveSequence = "D";
-        //    adventurer.Orientation = Orientation.EAST;
-        //    adventurer.Move();
-        //    Assert.AreEqual(adventurer.Orientation, Orientation.SOUTH);
-        //    Assert.IsTrue(adventurer.IsDone);
-        //}
+    {       
 
         [TestMethod()]
         [DataRow(Orientation.NORTH, Orientation.EAST)]
@@ -52,11 +21,13 @@ namespace TreasureHunt.Tests
         public void Adventurer_Move_Sequence_D(Orientation baseOrientation, Orientation expectedOrientation)
         {
             // Setup
-            var adventurer = new Adventurer();
-            adventurer.Name = "TestBoi";
-            adventurer.CurrentTurn = 0;
-            adventurer.MoveSequence = "D";
-            adventurer.Orientation = baseOrientation;
+            var adventurer = new Adventurer
+            {
+                Name = "TestBoi",
+                CurrentTurn = 0,
+                MoveSequence = "D",
+                Orientation = baseOrientation
+            };
 
             // Act
             adventurer.Move();
@@ -113,19 +84,6 @@ namespace TreasureHunt.Tests
             Assert.IsTrue(adventurer.IsDone);
             Assert.AreEqual(adventurer.CurrentTile, nextTile);
         }
-
-
-
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            //_mapMock = new Map();
-        }
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-
-        }
+       
     }
 }
