@@ -7,7 +7,7 @@ using System.IO;
 
 namespace TreasureHunt
 {
-    class Game
+    public class Game
     {
         private Map _map;
         

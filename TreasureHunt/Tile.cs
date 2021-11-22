@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace TreasureHunt
 {
-    enum TileType {NONE, PLAIN, MOUNTAIN, TREASURE};
-    class Tile
+    public enum TileType {NONE, PLAIN, MOUNTAIN, TREASURE};
+    public class Tile
     {
         public bool IsPassable { get; set; }
         public TileType Type { get; set; }

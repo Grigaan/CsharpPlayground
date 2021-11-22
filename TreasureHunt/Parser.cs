@@ -9,7 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace TreasureHunt
 {
-    class Parser
+    public class Parser
     {
         private readonly Regex basicFileStructureRX = new (@"^[CMTA](\s\-\s\d){2,3}", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 

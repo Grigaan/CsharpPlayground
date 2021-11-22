@@ -10,7 +10,7 @@ namespace TreasureHunt
     {
         Mountain,Treasure,Adventurer
     }
-    class Map
+    public class Map : IMap
     {
         public int Width { get; set; }
         public int Height { get; set; }
@@ -23,7 +23,7 @@ namespace TreasureHunt
         private const string ADVENTURER_ID = "A";
         private const string MAP_SETTINGS_ID = "C";
 
-        public Map(IEnumerable<string> lines) 
+        public Map(IEnumerable<string> lines)
         {
             var firstLine = lines.ElementAt(0).Split("-", StringSplitOptions.RemoveEmptyEntries);
 
@@ -72,12 +72,17 @@ namespace TreasureHunt
             }
 
         }
-       
-       
+
+
 
         public string GetFormattedMapDimensions()
         {
             return string.Format("C - {0} - {1}", Width, Height);
+        }
+
+        public Tile GetTile(int x, int y)
+        {
+            return Tiles[x, y];
         }
 
         public IEnumerable<string> GetFormattedMapStringList()
@@ -87,18 +92,18 @@ namespace TreasureHunt
             Tile[] tiles = Tiles.Cast<Tile>().ToArray();
 
             var mountainTiles = tiles.Where(item => item.Type == TileType.MOUNTAIN).ToList();
-            foreach(Tile t in mountainTiles)
+            foreach (Tile t in mountainTiles)
             {
                 resultList.Add(string.Format("{0} - {1} - {2}", MOUNTAIN_ID, t.X, t.Y));
             }
 
             var treasureTiles = tiles.Where(item => item.TreasureCount > 0).ToList();
-            foreach(Tile t in treasureTiles)
+            foreach (Tile t in treasureTiles)
             {
                 resultList.Add(string.Format("{0} - {1} - {2} - {3}", TREASURE_ID, t.X, t.Y, t.TreasureCount));
             }
 
-            foreach(Adventurer av in Adventurers)
+            foreach (Adventurer av in Adventurers)
             {
                 resultList.Add(string.Format("{0} - {1} - {2} - {3} - {4} - {5}", ADVENTURER_ID, av.Name, av.PosX, av.PosY, Utils.GetStringFromOrientation(av.Orientation), av.TreasureCount));
             }
@@ -106,21 +111,27 @@ namespace TreasureHunt
             return resultList;
 
         }
-        
+
 
         public bool IsValidMoveLocation(int x, int y)
         {
-            if (x >= 0 && x <= Width - 1 && y >= 0 && y <= Height - 1)
+            if (IsOutofBounds(x, y))
             {
                 var tile = Tiles[x, y];
                 if (tile.IsPassable)
-                    return true;                
+                    return true;
             }
-            return false;           
+            return false;
         }
 
-        
+        public bool IsOutofBounds(int x, int y)
+        {
+            return x >= 0 && x <= Width - 1 && y >= 0 && y <= Height - 1;
+        }
 
-        
+
+
+
+
     }
 }
