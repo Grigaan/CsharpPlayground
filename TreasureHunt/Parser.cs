@@ -13,7 +13,7 @@ namespace TreasureHunt
     {
         private readonly Regex basicFileStructureRX = new (@"^[CMTA](\s\-\s\d){2,3}", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
-        public void Parse(string configFilePath)
+        public Map Parse(string configFilePath)
         {
             string[] fileContent = File.ReadAllLines(configFilePath);
 
@@ -29,7 +29,8 @@ namespace TreasureHunt
             //}
             //Map.Instance.CreateMap(matches.Select(m => m.Value).ToList());
             //return new Map(matches.Select(m => m.Value).ToList());
-            Map.Instance.CreateMap(fileContent);
+            //Map.Instance.CreateMap(fileContent);
+            return new Map(fileContent);
         }
 
         

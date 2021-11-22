@@ -23,57 +23,44 @@ namespace TreasureHunt
         private const string ADVENTURER_ID = "A";
         private const string MAP_SETTINGS_ID = "C";
 
-        private Map() { }
-        private static Map instance = null;
-        public static Map Instance
+        public Map(IEnumerable<string> lines) 
         {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new Map();
-                }
-                return instance;
-            }
-        }
-        public void CreateMap(IEnumerable<string> lines)
-        {
-            var firstLine = lines.ElementAt(0).Split("-", StringSplitOptions.RemoveEmptyEntries);            
+            var firstLine = lines.ElementAt(0).Split("-", StringSplitOptions.RemoveEmptyEntries);
 
             // TODO Check int value
             Width = int.Parse(firstLine[1]);
             Height = int.Parse(firstLine[2]);
 
             Tiles = new Tile[Width, Height];
-            for(int i = 0; i < Width; i++)
+            for (int i = 0; i < Width; i++)
             {
                 for (int j = 0; j < Height; j++)
                 {
-                    Tiles[i, j] = new Tile(i,j);
+                    Tiles[i, j] = new Tile(i, j);
                 }
             }
 
             Adventurers = new();
-            
+
             foreach (string line in lines.Skip(1))
             {
-                var currentLine = line.Split("-", StringSplitOptions.RemoveEmptyEntries); 
+                var currentLine = line.Split("-", StringSplitOptions.RemoveEmptyEntries);
                 currentLine = Utils.RemoveWhiteSpaceInStrArray(currentLine);
 
                 switch (currentLine[0])
                 {
                     case MOUNTAIN_ID:
-                        Console.WriteLine("MOUNTAIN");                        
+                        Console.WriteLine("MOUNTAIN");
                         Tiles[int.Parse(currentLine[1]), int.Parse(currentLine[2])].Type = TileType.MOUNTAIN;
                         break;
                     case TREASURE_ID:
                         Console.WriteLine("TREASURE");
                         var tile = Tiles[int.Parse(currentLine[1]), int.Parse(currentLine[2])];
                         tile.Type = TileType.TREASURE;
-                        tile.TreasureCount = int.Parse(currentLine[3]);       
+                        tile.TreasureCount = int.Parse(currentLine[3]);
                         break;
                     case ADVENTURER_ID:
-                        Adventurer adventurer = new(currentLine[1], currentLine[2], currentLine[3], Utils.GetOrientationFromString(currentLine[4]), currentLine[5]);
+                        Adventurer adventurer = new(currentLine[1], currentLine[2], currentLine[3], Utils.GetOrientationFromString(currentLine[4]), currentLine[5], this);
                         Adventurers.Add(adventurer);
                         break;
                     default:
@@ -84,8 +71,9 @@ namespace TreasureHunt
 
             }
 
-            
         }
+       
+       
 
         public string GetFormattedMapDimensions()
         {

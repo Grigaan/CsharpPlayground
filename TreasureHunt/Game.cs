@@ -9,37 +9,30 @@ namespace TreasureHunt
 {
     class Game
     {
-        private Map Map;
+        private Map _map;
         
         //public Game(Map map)
         //{            
         //    Map = map;
         //}
-        private Game() { }
-        private static Game instance = null;
-
-        public bool Simulating = false;
-        public static Game Instance
+        public Game(Map map) 
         {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new Game();
-                }
-                return instance;
-            }
+            _map = map;
         }
 
-        public IEnumerable<string> LaunchSimulation(Map map)
+
+        public bool Simulating = false;
+       
+
+        public IEnumerable<string> LaunchSimulation()
         {
-            Map = map;
+           
             Simulating = true;
 
             while (Simulating)
             {
-                var remainingAdventurers = Map.Adventurers.Where(adv => !adv.IsDone).ToList();
-                if (remainingAdventurers == null || remainingAdventurers.Count == 0)
+                var remainingAdventurers = _map.Adventurers.Where(adv => !adv.IsDone).ToList();
+                if (!remainingAdventurers.Any())
                 {
                     Simulating = false;
                     break;
@@ -50,7 +43,7 @@ namespace TreasureHunt
                 }
             }
             
-            return Map.Instance.GetFormattedMapStringList();
+            return _map.GetFormattedMapStringList();
         }
     }
 }

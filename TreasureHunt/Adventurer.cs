@@ -25,6 +25,8 @@ namespace TreasureHunt
         public int CurrentTurn { get; set; }
         public bool IsDone { get; set; }
 
+        private Map _map;
+
 
 
 
@@ -32,7 +34,7 @@ namespace TreasureHunt
         private const string TURN_LEFT_ACTION = "G";
         private const string TURN_RIGHT_ACTION = "D";
 
-        public Adventurer(string name, string posX, string posY, Orientation orientation, string moveSequence)
+        public Adventurer(string name, string posX, string posY, Orientation orientation, string moveSequence, Map map)
         {
             Name = name;
             PosX = int.Parse(posX);
@@ -42,7 +44,8 @@ namespace TreasureHunt
             TreasureCount = 0;
             CurrentTurn = 0;
             IsDone = false;
-            CurrentTile = Map.Instance.Tiles[PosX, PosY];
+            _map = map;
+            CurrentTile = _map.Tiles[PosX, PosY];
 
             Console.WriteLine("{0} spawns at {1},{2}", Name, PosX, PosY);
         }
@@ -106,10 +109,10 @@ namespace TreasureHunt
                     break;
             }
 
-            if (Map.Instance.IsValidMoveLocation(projectedPosX, projectedPosY))
+            if (_map.IsValidMoveLocation(projectedPosX, projectedPosY))
             {
                 CurrentTile.IsPassable = true;
-                CurrentTile = Map.Instance.Tiles[projectedPosX, projectedPosY];
+                CurrentTile = _map.Tiles[projectedPosX, projectedPosY];
                 CurrentTile.IsPassable = false;
                 PosX = projectedPosX;
                 PosY = projectedPosY;

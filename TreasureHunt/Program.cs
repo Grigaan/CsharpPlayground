@@ -17,8 +17,9 @@ namespace TreasureHunt
             }
 
             var parser = new Parser();
-            parser.Parse(args[0]);
-            var map_result = Game.Instance.LaunchSimulation(Map.Instance);
+            var map = parser.Parse(args[0]);
+            var game = new Game(map);
+            var map_result = game.LaunchSimulation();
             File.WriteAllLines(Path.Combine(args[1], outputFileName), map_result);
 
         }
